@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2913485554579556075
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7250261856092059233, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_Name
+      value: Theseus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059239, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_Delay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250261857275496576, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4cdc25c63ecbf7a44b27135e6e61af3e, type: 2}
+    - target: {fileID: 7250261857275496590, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
