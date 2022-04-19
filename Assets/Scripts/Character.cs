@@ -13,6 +13,12 @@ public class Character : MonoBehaviour
     [Tooltip("Delay between each move in seconds.")]
     [SerializeField] float m_Delay = 0.25f;
 
+    [Tooltip("Max moves per round.")]
+    [SerializeField] int m_MovesPerRound = 1;
+
+    [Tooltip("Character can't collide with these layers.")]
+    [SerializeField] LayerMask m_BlockMovementLayer;
+
     /*
      * Auxiliar members.
      */
@@ -56,11 +62,11 @@ public class Character : MonoBehaviour
     /*
      * Public methods.
      */
-    public bool TryMove(Vector2[] moves)
+    public bool TryMove(Vector2 moveVector)
     {
         if (isAvailable)
         {
-            StartCoroutine(Move(moves));
+            StartCoroutine(Move(moveVector));
             return true;
         }
         return false;
@@ -69,15 +75,34 @@ public class Character : MonoBehaviour
     /*
      * Private methods.
      */
-    IEnumerator Move(Vector2[] moves)
+    IEnumerator Move(Vector2 moveVector)
     {
         isAvailable = false;
-        foreach (var move in moves)
+
+        for (int counter = 0; counter < m_MovesPerRound; counter++)
         {
-            var deltaPosition = new Vector3(move.x, move.y);
-            targetPosition = transform.position + deltaPosition;
-            yield return StartCoroutine(WaitUntilMoveIsDone());
+            var deltaPosition = Vector2.zero;
+            if (Mathf.Abs(moveVector.x) > GameManager.MOVE_PRECISION)
+            {
+                deltaPosition.x += Mathf.Sign(moveVector.x);
+            }
+            else if (Mathf.Abs(moveVector.y) > GameManager.MOVE_PRECISION)
+            {
+                deltaPosition.y += Mathf.Sign(moveVector.y);
+            }
+            else
+            {
+                break;
+            }
+
+            if (!Physics.Raycast(transform.position, deltaPosition, 1f, m_BlockMovementLayer))
+            {
+                moveVector -= deltaPosition;
+                targetPosition = transform.position + (Vector3)deltaPosition;
+                yield return StartCoroutine(WaitUntilMoveIsDone());
+            }
         }
+
         isAvailable = true;
     }
 

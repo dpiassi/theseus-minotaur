@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     /*
      * Constants.
      */
-    public const float MOVE_PRECISION = 0.001f;
+    public const float MOVE_PRECISION = 0.01f;
 
     /*
      * Static members.
@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     /*
      * Auxiliar members.
      */
-    Vector2 deltaPosition = Vector2.zero;
     bool isAvailable = true;
 
     /*
@@ -50,35 +49,21 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        /*
-         * Input:
-         */
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
+        /* Input: */
+        var deltaPosition = new Vector2
+        {
+            x = Input.GetAxisRaw("Horizontal"),
+            y = Input.GetAxisRaw("Vertical")
+        };
 
-        if (horizontal != deltaPosition.x)
-        {
-            deltaPosition.x = horizontal;
-        }
-        if (Mathf.Abs(deltaPosition.x) > MOVE_PRECISION)
-        {
-            deltaPosition.y = 0f;
-        }
-        else if (vertical != deltaPosition.y)
-        {
-            deltaPosition.y = vertical;
-        }
-
-        /*
-         * Movement:
-         */
+        /* Movement */
         if (deltaPosition.sqrMagnitude > MOVE_PRECISION)
         {
             Log($"Moving Theseus by {deltaPosition}.");
-            if (m_Theseus.TryMove(new Vector2[] { deltaPosition }))
+            if (m_Theseus.TryMove(deltaPosition))
             {
                 Log($"Moving Minotaur...");
-                StartCoroutine(MoveEnemy(deltaPosition));
+                StartCoroutine(MoveEnemy());
             }
         }
     }
@@ -86,14 +71,26 @@ public class GameManager : MonoBehaviour
     /*
      * Private methods.
      */
-    IEnumerator MoveEnemy(Vector2 delta)
+    Vector2 MoveVectorFromMinotaurToTheseus()
+    {
+        return m_Theseus.transform.position - m_Minotaur.transform.position;
+    }
+
+    IEnumerator MoveEnemy()
     {
         isAvailable = false;
         yield return new WaitUntil(() => m_Theseus.IsAvailable);
         Log($"Theseus finished moving...");
+        Vector2 delta = MoveVectorFromMinotaurToTheseus();
         Log($"Moving Minotaur by {delta}.");
-        m_Minotaur.TryMove(new Vector2[] { delta, delta });
+        m_Minotaur.TryMove(delta);
         yield return new WaitUntil(() => m_Minotaur.IsAvailable);
+
+        if (MoveVectorFromMinotaurToTheseus().sqrMagnitude < 1f)
+        {
+            Debug.Log("GAME OVER!");
+        }
+
         isAvailable = true;
     }
 
@@ -105,7 +102,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(message);
         }
     }
-
 
     /*
      * Public methods.

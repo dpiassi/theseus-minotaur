@@ -19,11 +19,14 @@ public class LevelLoader : MonoBehaviour
     [Tooltip("Index of level to load.")]
     [SerializeField] int m_CurrentLevel = 0;
 
-    [Tooltip("Level data.")]
+    [Tooltip("Levels data.")]
     [SerializeField] Level[] m_Levels;
 
     [SerializeField] LevelLoadedEvent m_OnLevelLoaded;
 
+    /*
+     * Custom events.
+     */
     [System.Serializable]
     public class LevelLoadedEvent : UnityEvent<Level> { }
 
