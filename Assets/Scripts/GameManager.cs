@@ -22,10 +22,6 @@ public class GameManager : MonoBehaviour
     public const float MOVE_PRECISION = 0.001f;
 
     /*
-     * Public members.
-     */
-
-    /*
      * Static members.
      */
     static public GameManager Instance { get; private set; }
@@ -39,7 +35,6 @@ public class GameManager : MonoBehaviour
     /*
      * Unity Messages.
      */
-
     void Awake()
     {
         if (Instance == null)
@@ -88,7 +83,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     /*
      * Private methods.
      */
@@ -110,5 +104,15 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(message);
         }
+    }
+
+
+    /*
+     * Public methods.
+     */
+    public void OnLevelLoaded(Level level)
+    {
+        m_Theseus.transform.position = level.GridToWorldPosition(level.playerPosition);
+        m_Minotaur.transform.position = level.GridToWorldPosition(level.enemyPosition);
     }
 }

@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 1112832773}
   - component: {fileID: 1112832774}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: Level Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,7 +347,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Floor: {fileID: 5112417583129359257, guid: 322bd328251792d4eb11880c1fd3e95e, type: 3}
   m_Wall: {fileID: 8627335482106665586, guid: 50703b4245ad199438882517253f16c2, type: 3}
-  m_GridSize: {x: 9, y: 9}
+  m_Exit: {fileID: 9104127253056834127, guid: 9d3e03f9f6f9e6443966b4b285213ca2, type: 3}
+  m_CurrentLevel: 2
+  m_Levels:
+  - {fileID: 11400000, guid: 635c4faa64d70d741bc12cf6f58f6e29, type: 2}
+  - {fileID: 11400000, guid: 84b937f14379fd44d83b5d381051801e, type: 2}
+  - {fileID: 11400000, guid: 3cbc4f7141bf7fa488967581a6d68534, type: 2}
+  m_OnLevelLoaded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1793439354}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnLevelLoaded
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1239296479 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5544174212519571596, guid: 11c447f7311508f4faefd37837f69823, type: 3}
@@ -370,7 +390,7 @@ GameObject:
   - component: {fileID: 1793439353}
   - component: {fileID: 1793439354}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
