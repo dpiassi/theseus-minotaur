@@ -131,7 +131,7 @@ namespace StrangeLoopGames.TheseusMinotaur
             // We only have to check Win conditions after Minotaur moves.
             else if (MoveVectorFromTheseusToExit().sqrMagnitude < 1f)
             {
-                m_Model.ChangeState(State.GameOver);
+                m_Model.ChangeState(State.Escaped);
 
             }
 

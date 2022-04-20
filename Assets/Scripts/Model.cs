@@ -98,8 +98,7 @@ namespace StrangeLoopGames.TheseusMinotaur
 
         void OnRoundChanged()
         {
-            //m_View.SetRoundText(m_LevelLoader.Current.name, currentRound);
-            m_View.SetRoundText("TEST", currentRound);
+            m_View.SetRoundText(m_LevelLoader.Current.name, currentRound);
         }
     }
 }
