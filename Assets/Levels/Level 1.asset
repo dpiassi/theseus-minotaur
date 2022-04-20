@@ -16,7 +16,10 @@ MonoBehaviour:
   playerPosition: {x: 6, y: 2}
   enemyPosition: {x: 1, y: 2}
   exitPosition: {x: 10, y: 2}
-  description: Sometimes... it worth running!
+  description: 'Sometimes... it worth running!
+
+    (Base mecanic: run away from
+    enemy)'
   walls:
   - orientation: 1
     position: {x: 5, y: 1}

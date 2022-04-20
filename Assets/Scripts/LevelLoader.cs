@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public class LevelLoader : MonoBehaviour
@@ -8,18 +9,26 @@ public class LevelLoader : MonoBehaviour
      * Serialized members.
      */
     [Tooltip("The Floor prefab.")]
+    [FormerlySerializedAs("m_Floor")]
     [SerializeField] GameObject m_Floor;
 
     [Tooltip("The Wall prefab.")]
+    [FormerlySerializedAs("m_Wall")]
     [SerializeField] GameObject m_Wall;
 
     [Tooltip("The Exit prefab.")]
+    [FormerlySerializedAs("m_Exit")]
     [SerializeField] GameObject m_Exit;
 
-    [Tooltip("Levels data.")]
+    [Tooltip("Levels data.")] 
     [SerializeField] Level[] m_Levels;
 
     [SerializeField] LevelLoadedEvent m_OnLevelLoaded;
+
+    /*
+     * Public getters.
+     */
+    public GameObject Exit { get; private set; }
 
     /*
      * Custom events.
@@ -50,7 +59,7 @@ public class LevelLoader : MonoBehaviour
 
         var level = m_Levels[levelIndex];
         InstantiateFloor(level).name = "Floor";
-        InstantiateExit(level).name = "Exit";
+        InstantiateExit(level);
         InstantiateOuterWall(level, Vector2.up).name = "TWall";
         InstantiateOuterWall(level, Vector2.down).name = "BWall";
         InstantiateOuterWall(level, Vector2.right).name = "RWall";
@@ -67,13 +76,13 @@ public class LevelLoader : MonoBehaviour
     /*
      * Private methods.
      */
-    GameObject InstantiateExit(Level level)
+    void InstantiateExit(Level level)
     {
-        var exit = Instantiate(m_Exit, transform);
+        Exit = Instantiate(m_Exit, transform);
         var position = level.GridToWorldPosition(level.exitPosition);
-        position.z -= exit.transform.lossyScale.z;
-        exit.transform.position = position;
-        return exit;
+        position.z -= Exit.transform.lossyScale.z;
+        Exit.transform.position = position;
+        Exit.name = "Exit";
     }
 
     GameObject InstantiateFloor(Level level)

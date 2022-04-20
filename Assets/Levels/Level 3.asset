@@ -12,14 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71016bafc642be04b8fb0a4fffe554b5, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
-  size: {x: 3, y: 4}
-  playerPosition: {x: 2, y: 3}
-  enemyPosition: {x: 2, y: 4}
-  exitPosition: {x: 4, y: 3}
+  size: {x: 6, y: 6}
+  playerPosition: {x: 6, y: 6}
+  enemyPosition: {x: 6, y: 1}
+  exitPosition: {x: 5, y: 1}
+  description: 'Hmm... so are you waiting for me?
+
+    (Base mecanic: delay the enemy
+    movements)'
   walls:
-  - orientation: 0
-    position: {x: 1, y: 1}
   - orientation: 1
-    position: {x: 1, y: 2}
+    position: {x: 4, y: 5}
+  - orientation: 0
+    position: {x: 5, y: 5}
   - orientation: 0
     position: {x: 2, y: 3}
+  - orientation: 1
+    position: {x: 1, y: 4}
+  - orientation: 0
+    position: {x: 3, y: 1}
+  - orientation: 1
+    position: {x: 3, y: 2}

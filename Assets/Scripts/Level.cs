@@ -7,7 +7,7 @@ public class Level : ScriptableObject
     public Vector2 playerPosition;
     public Vector2 enemyPosition;
     public Vector2 exitPosition;
-    public string description;
+    [Multiline] public string description;
     public Wall[] walls;
 
     public Vector3 Offset => (size + Vector2.one) / -2f;

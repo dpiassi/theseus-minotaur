@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Panels")]
     [SerializeField] GameObject m_Gameplay;
-    [SerializeField] GameObject m_GameOver;
+    [SerializeField] GameObject m_ClosePauseMenu;
+    [SerializeField] GameObject m_PauseMenu;
+    [SerializeField] TMP_Text m_PauseTitle;
 
     [Header("UI Elements")]
     [SerializeField] TMP_Text m_RoundText;
@@ -123,13 +125,29 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         Log("Game Over");
-        m_GameOver.SetActive(true);
+        m_PauseTitle.text = $"Game Over – {m_RoundText.text}";
+        m_ClosePauseMenu.SetActive(false);
+        m_PauseMenu.SetActive(true);
+        m_Gameplay.SetActive(false);
+    }
+
+    void LevelFinished()
+    {
+        Log("Level Finished");
+        m_PauseTitle.text = $"You Escaped – {m_RoundText.text}";
+        m_ClosePauseMenu.SetActive(false);
+        m_PauseMenu.SetActive(true);
         m_Gameplay.SetActive(false);
     }
 
     Vector2 MoveVectorFromMinotaurToTheseus()
     {
         return m_Theseus.transform.position - m_Minotaur.transform.position;
+    }
+
+    Vector2 MoveVectorFromTheseusToExit()
+    {
+        return m_LevelLoader.Exit.transform.position - m_Theseus.transform.position;
     }
 
     void MoveEnemy()
@@ -157,6 +175,12 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
 
+        // We only have to check Win conditions after Minotaur moves.
+        else if (MoveVectorFromTheseusToExit().sqrMagnitude < 1f)
+        {
+            LevelFinished();
+        }
+
         SetAllButtonsInteractable(true);
         isAvailable = true;
     }
@@ -171,6 +195,14 @@ public class GameManager : MonoBehaviour
     /*
      * Public methods.
      */
+    public void ChangeLevel()
+    {
+        m_PauseTitle.text = "Change Level";
+        m_ClosePauseMenu.SetActive(true);
+        m_PauseMenu.SetActive(true);
+        m_Gameplay.SetActive(false);
+    }
+
     public void LoadLevel(int index)
     {
         m_CurrentLevelIndex = index;
@@ -192,7 +224,8 @@ public class GameManager : MonoBehaviour
         m_UndoButton.interactable = false;
 
         // Show gameplay UI:
-        m_GameOver.SetActive(false);
+        m_ClosePauseMenu.SetActive(false);
+        m_PauseMenu.SetActive(false);
         m_Gameplay.SetActive(true);
 
         // Update camera ortographic size:
