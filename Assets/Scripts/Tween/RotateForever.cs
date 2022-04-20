@@ -1,16 +1,19 @@
 using UnityEngine;
 
+/// <summary>
+/// Rotates Transform every frame using a constant
+/// angular velocity which is randomized at startup.
+/// </summary>
 public class RotateForever : MonoBehaviour
 {
+    // Auxiliar member:
     Vector3 angularVelocity;
 
-    // Start is called before the first frame update
     void Start()
     {
         angularVelocity = Random.rotation.eulerAngles;
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Rotate(angularVelocity * Time.deltaTime);

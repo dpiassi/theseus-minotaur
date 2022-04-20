@@ -2437,9 +2437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d2fa2047cf6ff4fb4c355bb6b4a9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Floor: {fileID: 5112417583129359257, guid: 322bd328251792d4eb11880c1fd3e95e, type: 3}
-  m_Wall: {fileID: 8627335482106665586, guid: 50703b4245ad199438882517253f16c2, type: 3}
-  m_Exit: {fileID: 9104127253056834127, guid: 9d3e03f9f6f9e6443966b4b285213ca2, type: 3}
+  m_FloorPrefab: {fileID: 5112417583129359257, guid: 322bd328251792d4eb11880c1fd3e95e, type: 3}
+  m_WallPrefab: {fileID: 8627335482106665586, guid: 50703b4245ad199438882517253f16c2, type: 3}
+  m_ExitPrefab: {fileID: 9104127253056834127, guid: 9d3e03f9f6f9e6443966b4b285213ca2, type: 3}
   m_Levels:
   - {fileID: 11400000, guid: 635c4faa64d70d741bc12cf6f58f6e29, type: 2}
   - {fileID: 11400000, guid: 84b937f14379fd44d83b5d381051801e, type: 2}
@@ -2850,8 +2850,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1793439354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ChangeLevel
+        m_TargetAssemblyTypeName: StrangeLoopGames.TheseusMinotaur.Controller, Assembly-CSharp
+        m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3157,34 +3157,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 622573488}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1331907057}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1365689995}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1793439354}
+        m_TargetAssemblyTypeName: StrangeLoopGames.TheseusMinotaur.Controller, Assembly-CSharp
+        m_MethodName: ResumeGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3713,6 +3689,7 @@ GameObject:
   - component: {fileID: 1793439353}
   - component: {fileID: 1793439354}
   - component: {fileID: 1793439355}
+  - component: {fileID: 1793439356}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3747,11 +3724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ac9ccce323a8942bbf45a4eb81e8be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_View: {fileID: 1793439355}
-  m_CurrentLevelIndex: 0
-  m_LevelLoader: {fileID: 1112832774}
-  m_Theseus: {fileID: 1239296479}
-  m_Minotaur: {fileID: 1869683515}
+  m_Model: {fileID: 1793439356}
   m_IsDebugEnabled: 1
 --- !u!114 &1793439355
 MonoBehaviour:
@@ -3774,6 +3747,23 @@ MonoBehaviour:
   m_UndoButton: {fileID: 1237958648}
   m_ReloadButton: {fileID: 1692985973}
   m_WaitButton: {fileID: 731691409}
+--- !u!114 &1793439356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793439352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c96a745fa7c0c741abca0e97d92380c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_View: {fileID: 1793439355}
+  m_CurrentLevelIndex: 0
+  m_LevelLoader: {fileID: 1112832774}
+  m_Theseus: {fileID: 1239296479}
+  m_Minotaur: {fileID: 1869683515}
 --- !u!1 &1814590130
 GameObject:
   m_ObjectHideFlags: 0
