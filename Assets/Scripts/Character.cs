@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
             return;
         }
 
-        if (Vector3.Distance(transform.position, targetPosition) > GameManager.MOVE_PRECISION)
+        if (Vector3.Distance(transform.position, targetPosition) > Controller.MOVE_PRECISION)
         {
             transform.position = Vector3.MoveTowards(
                transform.position,
@@ -92,7 +92,7 @@ public class Character : MonoBehaviour
     {
         if (history.TryPop(out Vector3 previousPosition))
         {
-            GameManager.Log($"Undo on Character \"{gameObject.name}\" to {previousPosition}");
+            Controller.Log($"Undo on Character \"{gameObject.name}\" to {previousPosition}");
             StartCoroutine(SafeUndo());
         }
         return CanUndo();
@@ -135,13 +135,13 @@ public class Character : MonoBehaviour
             Vector2 deltaPosition = Vector2.zero;
             bool validMove = false;
 
-            if (Mathf.Abs(moveVector.x) > GameManager.MOVE_PRECISION)
+            if (Mathf.Abs(moveVector.x) > Controller.MOVE_PRECISION)
             {
                 deltaPosition = new Vector2(Mathf.Sign(moveVector.x), 0f);
                 validMove = CanMoveBy(deltaPosition);
             }
 
-            if (!validMove && Mathf.Abs(moveVector.y) > GameManager.MOVE_PRECISION)
+            if (!validMove && Mathf.Abs(moveVector.y) > Controller.MOVE_PRECISION)
             {
                 deltaPosition = new Vector2(0f, Mathf.Sign(moveVector.y));
                 validMove = CanMoveBy(deltaPosition);

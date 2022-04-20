@@ -1,14 +1,21 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class GameManager : MonoBehaviour
+public class Controller : MonoBehaviour
 {
+    /*
+     * Enums.
+     */
+    public enum State { None, Playing, Paused, Escaped, GameOver };
+    public State GameState { get; private set; }
+
     /*
      * Serialized members.
      */
+    [Header("MVC")]
+    [SerializeField] View m_View;
+
     [Header("Game")]
     [Tooltip("First level to load.")]
     [SerializeField] int m_CurrentLevelIndex = 0;
@@ -22,19 +29,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("Reference to Enemy's character.")]
     [SerializeField] Character m_Minotaur;
 
-    [Header("UI Panels")]
-    [SerializeField] GameObject m_Gameplay;
-    [SerializeField] GameObject m_ClosePauseMenu;
-    [SerializeField] GameObject m_PauseMenu;
-    [SerializeField] TMP_Text m_PauseTitle;
-
-    [Header("UI Elements")]
-    [SerializeField] TMP_Text m_RoundText;
-    [SerializeField] TMP_Text m_DescriptionText;
-    [SerializeField] Button m_UndoButton;
-    [SerializeField] Button m_ReloadButton;
-    [SerializeField] Button m_WaitButton;
-
     [Header("Debug")]
     [Tooltip("Whether to print logs or not.")]
     [SerializeField] bool m_IsDebugEnabled = true;
@@ -47,7 +41,7 @@ public class GameManager : MonoBehaviour
     /*
      * Static members.
      */
-    static public GameManager Instance { get; private set; }
+    static public Controller Instance { get; private set; }
 
     static public void Log(object message)
     {
@@ -76,13 +70,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        m_UndoButton.onClick.AddListener(Undo);
-        m_ReloadButton.onClick.AddListener(Reload);
-        m_WaitButton.onClick.AddListener(Wait);
+        m_LevelLoader.Load(m_CurrentLevelIndex);
     }
 
     void Update()
     {
+        if (GameState != State.Playing)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             Undo();
@@ -122,22 +119,14 @@ public class GameManager : MonoBehaviour
     /*
      * Private methods.
      */
-    void GameOver()
+    void ChangeState(State state)
     {
-        Log("Game Over");
-        m_PauseTitle.text = $"Game Over – {m_RoundText.text}";
-        m_ClosePauseMenu.SetActive(false);
-        m_PauseMenu.SetActive(true);
-        m_Gameplay.SetActive(false);
-    }
-
-    void LevelFinished()
-    {
-        Log("Level Finished");
-        m_PauseTitle.text = $"You Escaped – {m_RoundText.text}";
-        m_ClosePauseMenu.SetActive(false);
-        m_PauseMenu.SetActive(true);
-        m_Gameplay.SetActive(false);
+        if (state != GameState)
+        {
+            Controller.Log($"State changed to: {state.ToString()}");
+            GameState = state;
+            m_View.OnGameStateChanged(state);
+        }
     }
 
     Vector2 MoveVectorFromMinotaurToTheseus()
@@ -153,13 +142,13 @@ public class GameManager : MonoBehaviour
     void MoveEnemy()
     {
         currentRound++;
-        OnRoundChanged();
+        m_View.SetRoundText(m_LevelLoader.Current.name, currentRound);
         StartCoroutine(CoMoveEnemy());
     }
 
     IEnumerator CoMoveEnemy()
     {
-        SetAllButtonsInteractable(false);
+        m_View.SetAllButtonsInteractable(false);
         isAvailable = false;
 
         yield return new WaitUntil(() => m_Theseus.IsAvailable);
@@ -172,24 +161,18 @@ public class GameManager : MonoBehaviour
         // We only have to check Game Over conditions when Minotaur moves.
         if (MoveVectorFromMinotaurToTheseus().sqrMagnitude < 1f)
         {
-            GameOver();
+            ChangeState(State.GameOver);
         }
 
         // We only have to check Win conditions after Minotaur moves.
         else if (MoveVectorFromTheseusToExit().sqrMagnitude < 1f)
         {
-            LevelFinished();
+            ChangeState(State.GameOver);
+
         }
 
-        SetAllButtonsInteractable(true);
+        m_View.SetAllButtonsInteractable(true);
         isAvailable = true;
-    }
-
-    void SetAllButtonsInteractable(bool interactable)
-    {
-        m_UndoButton.interactable = interactable;
-        m_ReloadButton.interactable = interactable;
-        m_WaitButton.interactable = interactable;
     }
 
     /*
@@ -197,10 +180,7 @@ public class GameManager : MonoBehaviour
      */
     public void ChangeLevel()
     {
-        m_PauseTitle.text = "Change Level";
-        m_ClosePauseMenu.SetActive(true);
-        m_PauseMenu.SetActive(true);
-        m_Gameplay.SetActive(false);
+        ChangeState(State.Paused);
     }
 
     public void LoadLevel(int index)
@@ -209,6 +189,9 @@ public class GameManager : MonoBehaviour
         Reload();
     }
 
+    /*
+     * Callbacks.
+     */
     public void OnLevelLoaded(Level level)
     {
         // Reset characters' position:
@@ -217,50 +200,40 @@ public class GameManager : MonoBehaviour
 
         // Reset round counter and update UI texts:
         currentRound = 0;
-        OnRoundChanged();
-        m_DescriptionText.text = level.description;
+        m_View.SetRoundText(m_LevelLoader.Current.name, currentRound);
+        m_View.SetDescriptionText(level.description);
 
         // Disable undo feature:
-        m_UndoButton.interactable = false;
+        m_View.IsUndoEnabled = false;
 
         // Show gameplay UI:
-        m_ClosePauseMenu.SetActive(false);
-        m_PauseMenu.SetActive(false);
-        m_Gameplay.SetActive(true);
+        ChangeState(State.Playing);
 
         // Update camera ortographic size:
         int size = (int)Mathf.Max(level.size.y, level.size.x / Camera.main.aspect);
         Camera.main.orthographicSize = size / 2f + 1f;
     }
 
-    /*
-     * Callbacks.
-     */
-
-    void OnRoundChanged()
+    public void Undo()
     {
-        m_RoundText.text = $"Level {m_CurrentLevelIndex} – Round {currentRound}";
-    }
-
-    void Undo()
-    {
-        if (m_UndoButton.interactable)
+        if (m_View.IsUndoEnabled)
         {
             currentRound--;
-            OnRoundChanged();
+            m_View.SetRoundText(m_LevelLoader.Current.name, currentRound);
+
             if (!m_Theseus.Undo() | !m_Minotaur.Undo())
             {
-                m_UndoButton.interactable = false;
+                m_View.IsUndoEnabled = false;
             }
         }
     }
 
-    void Reload()
+    public void Reload()
     {
         m_LevelLoader.Load(m_CurrentLevelIndex);
     }
 
-    void Wait()
+    public void Wait()
     {
         MoveEnemy();
     }

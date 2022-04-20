@@ -1657,7 +1657,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 731691410}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1793439354}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Wait
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &731691410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1895,8 +1907,8 @@ RectTransform:
   m_Father: {fileID: 1331907058}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.55, y: 0.9}
-  m_AnchorMax: {x: 0.98, y: 0.96}
+  m_AnchorMin: {x: 0.55, y: 0.89}
+  m_AnchorMax: {x: 0.98, y: 0.97}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -1947,7 +1959,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.6
+  m_fontSize: 46.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2691,7 +2703,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1237958649}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1793439354}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Undo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1237958649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3492,7 +3516,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1692985974}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1793439354}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Reload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1692985974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3708,22 +3744,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1793439352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed19cf5814f3b9458fbe6cf218d0144, type: 3}
+  m_Script: {fileID: 11500000, guid: d6ac9ccce323a8942bbf45a4eb81e8be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_View: {fileID: 1793439355}
   m_CurrentLevelIndex: 0
   m_LevelLoader: {fileID: 1112832774}
   m_Theseus: {fileID: 1239296479}
   m_Minotaur: {fileID: 1869683515}
-  m_Gameplay: {fileID: 1331907057}
-  m_ClosePauseMenu: {fileID: 1365689995}
-  m_PauseMenu: {fileID: 622573488}
-  m_PauseTitle: {fileID: 715558011}
-  m_RoundText: {fileID: 963526266}
-  m_DescriptionText: {fileID: 934242458}
-  m_UndoButton: {fileID: 1237958648}
-  m_ReloadButton: {fileID: 1692985973}
-  m_WaitButton: {fileID: 731691409}
   m_IsDebugEnabled: 1
 --- !u!114 &1793439355
 MonoBehaviour:
@@ -3737,6 +3765,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a1210a2f814e042b47f98bbd3243a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Gameplay: {fileID: 1331907057}
+  m_ClosePauseMenu: {fileID: 1365689995}
+  m_PauseMenu: {fileID: 622573488}
+  m_PauseTitle: {fileID: 715558011}
+  m_RoundText: {fileID: 963526266}
+  m_DescriptionText: {fileID: 934242458}
+  m_UndoButton: {fileID: 1237958648}
+  m_ReloadButton: {fileID: 1692985973}
+  m_WaitButton: {fileID: 731691409}
 --- !u!1 &1814590130
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ MonoBehaviour:
   description: 'Sometimes... it worth running!
 
     (Base mecanic: run away from
-    enemy)'
+    the enemy)'
   walls:
   - orientation: 1
     position: {x: 5, y: 1}

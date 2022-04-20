@@ -19,7 +19,7 @@ MonoBehaviour:
   description: 'You better run... after knochin'' me out!
 
     (Base mecanic: lock
-    the enemy)'
+    the enemy inside a trap)'
   walls:
   - orientation: 0
     position: {x: 1, y: 4}

@@ -20,7 +20,7 @@ public class LevelLoader : MonoBehaviour
     [FormerlySerializedAs("m_Exit")]
     [SerializeField] GameObject m_Exit;
 
-    [Tooltip("Levels data.")] 
+    [Tooltip("Levels data.")]
     [SerializeField] Level[] m_Levels;
 
     [SerializeField] LevelLoadedEvent m_OnLevelLoaded;
@@ -29,21 +29,14 @@ public class LevelLoader : MonoBehaviour
      * Public getters.
      */
     public GameObject Exit { get; private set; }
+    public Level Current { get; private set; }
 
     /*
      * Custom events.
      */
     [System.Serializable]
     public class LevelLoadedEvent : UnityEvent<Level> { }
-
-    /*
-     * Unity Messages.
-     */
-    void Start()
-    {
-        Load(0);
-    }
-
+    
     /*
      * Public methods.
      */
@@ -55,22 +48,22 @@ public class LevelLoader : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        GameManager.Log($"Loading Level {levelIndex}");
+        Controller.Log($"Loading Level {levelIndex}");
 
-        var level = m_Levels[levelIndex];
-        InstantiateFloor(level).name = "Floor";
-        InstantiateExit(level);
-        InstantiateOuterWall(level, Vector2.up).name = "TWall";
-        InstantiateOuterWall(level, Vector2.down).name = "BWall";
-        InstantiateOuterWall(level, Vector2.right).name = "RWall";
-        InstantiateOuterWall(level, Vector2.left).name = "LWall";
+        Current = m_Levels[levelIndex];
+        InstantiateFloor(Current).name = "Floor";
+        InstantiateExit(Current);
+        InstantiateOuterWall(Current, Vector2.up).name = "TWall";
+        InstantiateOuterWall(Current, Vector2.down).name = "BWall";
+        InstantiateOuterWall(Current, Vector2.right).name = "RWall";
+        InstantiateOuterWall(Current, Vector2.left).name = "LWall";
 
-        foreach (var wall in level.walls)
+        foreach (var wall in Current.walls)
         {
-            InstantiateInnerWall(level, wall);
+            InstantiateInnerWall(Current, wall);
         }
 
-        m_OnLevelLoaded.Invoke(level);
+        m_OnLevelLoaded.Invoke(Current);
     }
 
     /*
@@ -102,10 +95,10 @@ public class LevelLoader : MonoBehaviour
     GameObject InstantiateOuterWall(Level level, Vector2 normalizedPosition)
     {
         var mult = level.size * normalizedPosition;
-        var position = (Vector3) mult / 2f;
+        var position = (Vector3)mult / 2f;
         position.z = -0.5f;
         var localScale = new Vector3(
-            mult.y != 0f ? (level.size.x): 0.1f,
+            mult.y != 0f ? (level.size.x) : 0.1f,
             mult.x != 0f ? (level.size.y) : 0.1f,
             1f);
         var wall = Instantiate(m_Wall, transform);
