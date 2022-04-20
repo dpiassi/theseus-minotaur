@@ -16,9 +16,6 @@ public class LevelLoader : MonoBehaviour
     [Tooltip("The Exit prefab.")]
     [SerializeField] GameObject m_Exit;
 
-    [Tooltip("Index of level to load.")]
-    [SerializeField] int m_CurrentLevel = 0;
-
     [Tooltip("Levels data.")]
     [SerializeField] Level[] m_Levels;
 
@@ -35,7 +32,23 @@ public class LevelLoader : MonoBehaviour
      */
     void Start()
     {
-        var level = m_Levels[m_CurrentLevel].Load();
+        Load(0);
+    }
+
+    /*
+     * Public methods.
+     */
+    public void Load(int levelIndex)
+    {
+        // Destroy all level elements.
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        GameManager.Log($"Loading Level {levelIndex}");
+
+        var level = m_Levels[levelIndex];
         InstantiateFloor(level).name = "Floor";
         InstantiateExit(level).name = "Exit";
         InstantiateOuterWall(level, Vector2.up).name = "TWall";
@@ -58,6 +71,7 @@ public class LevelLoader : MonoBehaviour
     {
         var exit = Instantiate(m_Exit, transform);
         var position = level.GridToWorldPosition(level.exitPosition);
+        position.z -= exit.transform.lossyScale.z;
         exit.transform.position = position;
         return exit;
     }

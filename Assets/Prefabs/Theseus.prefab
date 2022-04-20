@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Theseus
       objectReference: {fileID: 0}
+    - target: {fileID: 7250261856092059233, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 7250261856092059237, guid: 5f1d3f388a6a6414b995e5af000c2149, type: 3}
       propertyPath: m_RootOrder
       value: 0

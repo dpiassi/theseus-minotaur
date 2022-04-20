@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71016bafc642be04b8fb0a4fffe554b5, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  size: {x: 3, y: 3}
-  playerPosition: {x: 2, y: 1}
-  enemyPosition: {x: 2, y: 3}
-  exitPosition: {x: 4, y: 2}
+  size: {x: 10, y: 2}
+  playerPosition: {x: 6, y: 2}
+  enemyPosition: {x: 1, y: 2}
+  exitPosition: {x: 10, y: 2}
+  description: Sometimes... it worth running!
   walls:
-  - orientation: 0
-    position: {x: 2, y: 1}
-  - orientation: 0
-    position: {x: 2, y: 2}
   - orientation: 1
-    position: {x: 2, y: 2}
+    position: {x: 5, y: 1}

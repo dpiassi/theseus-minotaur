@@ -12,20 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71016bafc642be04b8fb0a4fffe554b5, type: 3}
   m_Name: Level 2
   m_EditorClassIdentifier: 
-  size: {x: 7, y: 4}
-  playerPosition: {x: 3, y: 3}
-  enemyPosition: {x: 1, y: 3}
-  exitPosition: {x: 2, y: 0}
+  size: {x: 9, y: 3}
+  playerPosition: {x: 8, y: 2}
+  enemyPosition: {x: 9, y: 2}
+  exitPosition: {x: 1, y: 2}
+  description: You better run... after knochin' me out!
   walls:
-  - orientation: 0
-    position: {x: 2, y: 2}
   - orientation: 1
-    position: {x: 1, y: 3}
+    position: {x: 4, y: 1}
   - orientation: 1
-    position: {x: 2, y: 3}
-  - orientation: 0
-    position: {x: 6, y: 1}
-  - orientation: 1
-    position: {x: 5, y: 2}
-  - orientation: 1
-    position: {x: 6, y: 2}
+    position: {x: 4, y: 3}

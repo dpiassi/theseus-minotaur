@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -27,22 +28,27 @@ public class Character : MonoBehaviour
     bool isAvailable = true;
 
     /*
+     * Private readonly collections.
+     */
+    readonly Stack<Vector3> history = new();
+
+    /*
      * Public getters.
      */
+
+    /// <summary>
+    /// Indicates whether move coroutine is available or not.
+    /// </summary>
     public bool IsAvailable => isAvailable;
 
     /*
      * Unity Messages.
      */
-    void Start()
-    {
-        targetPosition = transform.position;
-    }
-
     void Update()
     {
         if (isMoveDone)
         {
+            // If we've already reached target position, there's no reason for us to proceed.
             return;
         }
 
@@ -55,6 +61,10 @@ public class Character : MonoBehaviour
         }
         else
         {
+            // Set the exact integer position:
+            transform.position = targetPosition;
+
+            // Update flag:
             isMoveDone = true;
         }
     }
@@ -66,48 +76,99 @@ public class Character : MonoBehaviour
     {
         if (isAvailable)
         {
-            StartCoroutine(Move(moveVector));
+            StartCoroutine(Move(Vector2Int.RoundToInt(moveVector)));
             return true;
         }
         return false;
     }
 
+    public bool CanUndo()
+    {
+        // Is there any remaining step to undo?
+        return history.Count > 0;
+    }
+
+    public bool Undo()
+    {
+        if (history.TryPop(out Vector3 previousPosition))
+        {
+            GameManager.Log($"Undo on Character \"{gameObject.name}\" to {previousPosition}");
+            StartCoroutine(SafeUndo());
+        }
+        return CanUndo();
+
+        IEnumerator SafeUndo()
+        {
+            yield return new WaitUntil(() => isAvailable);
+            targetPosition = previousPosition;
+            yield return StartCoroutine(WaitUntilMoveIsDone());
+        }
+    }
+
+    /*
+     * Callbacks
+     */
+    public void OnLevelLoaded(Level _)
+    {
+        targetPosition = transform.position;
+        history.Clear();
+    }
+
     /*
      * Private methods.
      */
-    IEnumerator Move(Vector2 moveVector)
+    bool CanMoveBy(Vector2 delta)
     {
+        return !Physics.Raycast(transform.position, delta, 1f, m_BlockMovementLayer);
+    }
+
+    IEnumerator Move(Vector2Int moveVector)
+    {
+        // Update flag:
         isAvailable = false;
+
+        // Store last position just before moving on:
+        history.Push(targetPosition);
 
         for (int counter = 0; counter < m_MovesPerRound; counter++)
         {
-            var deltaPosition = Vector2.zero;
+            Vector2 deltaPosition = Vector2.zero;
+            bool validMove = false;
+
             if (Mathf.Abs(moveVector.x) > GameManager.MOVE_PRECISION)
             {
-                deltaPosition.x += Mathf.Sign(moveVector.x);
+                deltaPosition = new Vector2(Mathf.Sign(moveVector.x), 0f);
+                validMove = CanMoveBy(deltaPosition);
             }
-            else if (Mathf.Abs(moveVector.y) > GameManager.MOVE_PRECISION)
+
+            if (!validMove && Mathf.Abs(moveVector.y) > GameManager.MOVE_PRECISION)
             {
-                deltaPosition.y += Mathf.Sign(moveVector.y);
+                deltaPosition = new Vector2(0f, Mathf.Sign(moveVector.y));
+                validMove = CanMoveBy(deltaPosition);
+            }
+
+            if (validMove)
+            {
+                // Update move vector:
+                moveVector -= Vector2Int.RoundToInt(deltaPosition);
+
+                targetPosition = transform.position + (Vector3)deltaPosition;
+
+                yield return StartCoroutine(WaitUntilMoveIsDone());
             }
             else
             {
                 break;
             }
-
-            if (!Physics.Raycast(transform.position, deltaPosition, 1f, m_BlockMovementLayer))
-            {
-                moveVector -= deltaPosition;
-                targetPosition = transform.position + (Vector3)deltaPosition;
-                yield return StartCoroutine(WaitUntilMoveIsDone());
-            }
         }
 
+        // Update flag:
         isAvailable = true;
     }
 
     IEnumerator WaitUntilMoveIsDone()
     {
+        // Update flag:
         isMoveDone = false;
         yield return new WaitUntil(() => isMoveDone);
         yield return new WaitForSeconds(m_Delay);
